@@ -19,7 +19,7 @@ void market(websocket_client &client, int &lastRecvTime, bool isSub, const char 
                 in_msg.body().streambuf().getn((unsigned char *) buf, l);
                 memset(sbuf, 0, BUFF);
                 gzDecompress(buf, in_msg.length(), sbuf, BUFF);
-                return sbuf;
+                return pplx::task_from_result(sbuf);
             }).get();
             lastRecvTime = Rest::getCurrentTime();
             Document d;
@@ -37,6 +37,7 @@ void market(websocket_client &client, int &lastRecvTime, bool isSub, const char 
                 }
             }
         } catch (std::exception &e) {
+            cout << e.what() << endl;
             cout << "disconnection... " << endl;
             client.close();
             break;

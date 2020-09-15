@@ -11,11 +11,11 @@ struct TradeClient {
     TradeClient(char *accessKey, char *secretKey) : signature{accessKey, secretKey} {
     }
 
-    long placeOrder(PlaceOrderRequest &request);
+    std::string placeOrder(PlaceOrderRequest &request);
 
     std::vector<long> batchOrders(std::vector<PlaceOrderRequest> &request);
 
-    void submitCancelOrder(long orderId);
+    void submitCancelOrder(std::string orderId);
 
     void submitCancelClientOrder(const char *clientOrderId);
 
@@ -25,7 +25,7 @@ struct TradeClient {
 
     BatchCancelOrders batchCancelOrders(BatchCancelOrdersRequest &request);
 
-    Order getOrder(long orderId);
+    Order getOrder(std::string orderId);
 
     Order getClientOrder(std::string clientOrderId);
 

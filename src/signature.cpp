@@ -68,7 +68,7 @@ string Signature::createV2Signature(const char* time) {
 
     std::string paramsStr;
     paramsStr.append("GET").append("\n")
-            .append("api.huobi.pro").append("\n")
+            .append("api.huobiasia.vip").append("\n")
             .append("/ws/v2").append("\n");
     std::string spliceStr;
     for (map<string, const char *>::iterator iter = params.begin(); iter != params.end(); ++iter) {

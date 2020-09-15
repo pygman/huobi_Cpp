@@ -165,6 +165,7 @@ void WebsocketHelper::func(websocket_client &client, int &lastRecvTime, string t
                 handler(value);
             }
         } catch (std::exception &e) {
+            cout << e.what() << endl;
             cout << "disconnection... " << endl;
             client.close();
             break;

@@ -1,6 +1,6 @@
 #include <client/tradeClient.h>
 
-long TradeClient::placeOrder(PlaceOrderRequest &request) {
+std::string TradeClient::placeOrder(PlaceOrderRequest &request) {
     string url = SPLICE("/v1/order/orders/place?");
     rapidjson::StringBuffer strBuf;
     rapidjson::Writer<rapidjson::StringBuffer> writer(strBuf);
@@ -38,7 +38,7 @@ long TradeClient::placeOrder(PlaceOrderRequest &request) {
     string response = Rest::perform_post(url.c_str(), strBuf.GetString());
     Document d;
     Value &data = d.Parse<kParseNumbersAsStringsFlag>(response.c_str())["data"];
-    return atol(data.GetString());
+    return data.GetString();
 }
 
 std::vector<long> TradeClient::batchOrders(std::vector<PlaceOrderRequest> &requests) {
@@ -90,9 +90,9 @@ std::vector<long> TradeClient::batchOrders(std::vector<PlaceOrderRequest> &reque
     return vec;
 }
 
-void TradeClient::submitCancelOrder(long orderId) {
+void TradeClient::submitCancelOrder(std::string orderId) {
     char uri[1024];
-    sprintf(uri, "/v1/order/orders/%ld/submitcancel", orderId);
+    sprintf(uri, "/v1/order/orders/%s/submitcancel", orderId.c_str());
     string url = "https://";
     url.append(HOST).append(uri).append("?");
     url.append(signature.createSignatureParam(POST, uri, std::map<std::string, const char *>()));
@@ -240,9 +240,9 @@ BatchCancelOrders TradeClient::batchCancelOrders(BatchCancelOrdersRequest &reque
     return batchCancelOrders;
 }
 
-Order TradeClient::getOrder(long orderId) {
+Order TradeClient::getOrder(std::string orderId) {
     char uri[1024];
-    sprintf(uri, "/v1/order/orders/%ld", orderId);
+    sprintf(uri, "/v1/order/orders/%s", orderId.c_str());
     string url = "https://";
     url.append(HOST).append(uri).append("?");
     url.append(signature.createSignatureParam(GET, uri, std::map<std::string, const char *>()));
